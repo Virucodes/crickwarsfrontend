@@ -15,7 +15,7 @@ const RankingsPage = () => {
     const fetchLeaderboard = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:4000/users/leaderboard');
+        const response = await axios.get('https://crickwarsbackend.onrender.com/users/leaderboard');
         setLeaderboard(response.data);
       } catch (err) {
         setError('Failed to fetch leaderboard data');

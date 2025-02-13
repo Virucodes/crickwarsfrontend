@@ -59,7 +59,7 @@ const RegisterPage = () => {
         password: formData.password
       };
       
-      const response = await fetch('http://localhost:4000/users/register', {
+      const response = await fetch('https://crickwarsbackend.onrender.com/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

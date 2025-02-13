@@ -61,7 +61,7 @@ const PlayersRatingPage = () => {
           setStadiumName(stadium.name);
         }
 
-        const response = await axios.get(`http://localhost:4000/players/group/${group2_id}`);
+        const response = await axios.get(`https://crickwarsbackend.onrender.com/players/group/${group2_id}`);
         
         const playersWithDR = response.data.map(player => ({
           ...player,
@@ -263,7 +263,7 @@ const PlayersRatingPage = () => {
         throw new Error('User not found. Please login again.');
       }
 
-      await axios.put(`http://localhost:4000/users/score/${username}`, {
+      await axios.put(`https://crickwarsbackend.onrender.com/users/score/${username}`, {
         score: userScore
       });
 
