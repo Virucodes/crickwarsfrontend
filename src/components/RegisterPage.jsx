@@ -82,7 +82,7 @@ const RegisterPage = () => {
       console.log('Stored username:', data.username);
 
       // Redirect to auction page
-      window.location.href = '/auction';
+      window.location.href = 'https://crickwarsfrontend.vercel.app/auction';
       
     } catch (error) {
       console.error('Registration error:', error);
