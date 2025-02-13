@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   CardContent,
@@ -11,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -81,8 +83,8 @@ const RegisterPage = () => {
       console.log('Stored group2_id:', data.group2_id);
       console.log('Stored username:', data.username);
 
-      // Redirect to auction page
-      window.location.href = 'https://crickwarsfrontend.vercel.app/auction';
+      // Use React Router's navigate instead of window.location
+      navigate('/auction');
       
     } catch (error) {
       console.error('Registration error:', error);
