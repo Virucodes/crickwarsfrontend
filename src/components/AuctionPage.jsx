@@ -249,8 +249,10 @@ const PlayersRatingPage = () => {
       }
     }
   };
-
   const handleRatingChange = (id, value) => {
+
+ 
+
     const rating = Math.min(Math.max(value, 1), 10);
     
     setRatings(prev => {
@@ -383,9 +385,7 @@ const PlayersRatingPage = () => {
             </div>
           </div>
           <div className="mt-4">
-            <p className="text-xl font-bold text-primary mb-4">
-              Current Team Score: {userScore.toFixed(2)}
-            </p>
+            
             {isTeamComplete && (
               <Button 
                 className="w-full"
