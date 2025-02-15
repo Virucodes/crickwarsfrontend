@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const STADIUMS = {
-  1: { name: "Wankhede Stadium", currentUsers: 0, maxRating: 65 },
-  2: { name: "Eden Gardens", currentUsers: 0, maxRating: 65 },
-  3: { name: "Chinnaswamy Stadium", currentUsers: 0, maxRating: 65 },
-  4: { name: "Feroz Shah Kotla", currentUsers: 0, maxRating: 65 },
-  5: { name: "Chepauk Stadium", currentUsers: 0, maxRating: 65 }
+  1: { name: "Narendra Modi Stadium, Ahmedabad", currentUsers: 0, maxRating: 65 },
+  2: { name: "Wankhede Stadium, Mumbai", currentUsers: 0, maxRating: 65 },
+  3: { name: "Chepauk (M. A. Chidambaram Stadium), Chennai", currentUsers: 0, maxRating: 65 },
+  4: { name: "Eden Gardens, Kolkata", currentUsers: 0, maxRating: 65 },
+  5: { name: "M. Chinnaswamy Stadium, Bengaluru", currentUsers: 0, maxRating: 65 }
 };
 
 const TEAM_CONSTRAINTS = {
