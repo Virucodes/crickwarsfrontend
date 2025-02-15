@@ -62,7 +62,7 @@ const RegisterPage = () => {
 
     // Check if team name is in allowed list
     if (!allowedTeams.includes(username.trim())) {
-      setError('Please enter a valid IPL team name');
+      setError('Please enter a valid magical team name');
       return false;
     }
 
