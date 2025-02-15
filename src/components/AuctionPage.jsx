@@ -127,9 +127,11 @@ const PlayersRatingPage = () => {
     if (!player || !rating) return 0;
 
     let score = rating * SCORE_WEIGHTS.RATING_WEIGHT;
-    score += player.dr * SCORE_WEIGHTS.DR_WEIGHT;
+    if(player.dr != 0){
+      score += player.dr * SCORE_WEIGHTS.DR_WEIGHT;
+    }
 
-    if (rating >= 8) {
+    if (rating >= 8 && player.dr > 0) {
       score += score * SCORE_WEIGHTS.HIGH_RATING_BONUS;
     }
 
