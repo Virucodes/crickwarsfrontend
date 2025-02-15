@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const STADIUMS = {
-  1: { name: "Wankhede Stadium", currentUsers: 0, maxRating: 65 },
-  2: { name: "Eden Gardens", currentUsers: 0, maxRating: 65 },
-  3: { name: "Chinnaswamy Stadium", currentUsers: 0, maxRating: 65 },
-  4: { name: "Feroz Shah Kotla", currentUsers: 0, maxRating: 65 },
-  5: { name: "Chepauk Stadium", currentUsers: 0, maxRating: 65 }
+  1: { name: "Narendra Modi Stadium, Ahmedabad", currentUsers: 0, maxRating: 65 },
+  2: { name: "Wankhede Stadium, Mumbai", currentUsers: 0, maxRating: 65 },
+  3: { name: "Chepauk (M. A. Chidambaram Stadium), Chennai", currentUsers: 0, maxRating: 65 },
+  4: { name: "Eden Gardens, Kolkata", currentUsers: 0, maxRating: 65 },
+  5: { name: "M. Chinnaswamy Stadium, Bengaluru", currentUsers: 0, maxRating: 65 }
 };
 
 const TEAM_CONSTRAINTS = {
@@ -45,6 +45,41 @@ const PlayersRatingPage = () => {
   const [isFinalizing, setIsFinalizing] = useState(false);
 
   useEffect(() => {
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+
+    // Disable keyboard shortcuts
+    const handleKeyDown = (e) => {
+      // Prevent F12
+      if (e.keyCode === 123) {
+        e.preventDefault();
+      }
+
+      // Prevent Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+      if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 85)) {
+        e.preventDefault();
+      }
+
+      // Prevent Ctrl+S
+      if (e.ctrlKey && e.keyCode === 83) {
+        e.preventDefault();
+      }
+    };
+
+    // Disable copy paste
+    const handleCopy = (e) => {
+      e.preventDefault();
+    };
+
+    // Add event listeners for security
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('copy', handleCopy);
+    document.addEventListener('cut', handleCopy);
+    document.addEventListener('paste', handleCopy);
+
     const fetchPlayers = async () => {
       try {
         const group2_id = localStorage.getItem('group2_id');
@@ -77,6 +112,15 @@ const PlayersRatingPage = () => {
     };
 
     fetchPlayers();
+
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('cut', handleCopy);
+      document.removeEventListener('paste', handleCopy);
+    };
   }, []);
 
   const calculatePlayerScore = (player, rating) => {

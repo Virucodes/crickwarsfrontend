@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card,
@@ -13,35 +13,59 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    confirmPassword: ''
-  });
+  const [username, setUsername] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    if (error) setError('');
-  };
+  // Disable right click
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, []);
+
+  // Define allowed team names
+  const allowedTeams = [
+    "Gryffindor Guardians",
+    "Slytherin Serpents",
+    "Ravenclaw Riddles",
+    "Hufflepuff Heralds",
+    "Phoenix Flames",
+    "Basilisk Behemoths",
+    "Thestral Shadows",
+    "Hippogriff Heroes",
+    "Patronus Protectors",
+    "Wingardium Wizards",
+    "Polyjuice Pioneers",
+    "Felix Felicis Force",
+    "Marauder’s Mapmakers",
+    "Dumbledore’s Army",
+    "Golden Snitches",
+    "Deathly Hallows",
+  ];
+
+  // Constant password for all users
+  const CONSTANT_PASSWORD = "cricwars123";
 
   const validateForm = () => {
-    if (!formData.username || !formData.password) {
-      setError('Please fill in all fields');
+    if (!username) {
+      setError('Please enter a team name');
       return false;
     }
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+
+    // Check if team name is in allowed list
+    if (!allowedTeams.includes(username.trim())) {
+      setError('Please enter a valid IPL team name');
       return false;
     }
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return false;
-    }
+
     return true;
   };
 
@@ -57,8 +81,8 @@ const RegisterPage = () => {
 
     try {
       const registerData = {
-        username: formData.username.trim(),
-        password: formData.password
+        username: username.trim(),
+        password: CONSTANT_PASSWORD
       };
       
       const response = await fetch('https://crickwarsbackend.onrender.com/users/register', {
@@ -72,6 +96,9 @@ const RegisterPage = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 409) {
+          throw new Error('This team name is already registered');
+        }
         throw new Error(data.message || 'Registration failed');
       }
 
@@ -79,11 +106,7 @@ const RegisterPage = () => {
       localStorage.setItem('group2_id', data.group2_id);
       localStorage.setItem('username', data.username);
       
-      // For debugging
-      console.log('Stored group2_id:', data.group2_id);
-      console.log('Stored username:', data.username);
-
-      // Use React Router's navigate instead of window.location
+      // Navigate to auction page
       navigate('/auction');
       
     } catch (error) {
@@ -102,7 +125,7 @@ const RegisterPage = () => {
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold text-primary">Join CricWars</CardTitle>
             <CardDescription>
-              Create your account to start building your dream team
+              Register your Magical team to start the round
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -115,48 +138,18 @@ const RegisterPage = () => {
               
               <div className="space-y-2">
                 <label className="block text-sm font-medium">
-                  Teamname
+                  Team Name
                 </label>
                 <Input
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (error) setError('');
+                  }}
                   required
                   className="w-full"
-                  placeholder="Choose a username"
+                  placeholder="Enter your magical team name"
                   autoComplete="username"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-sm font-medium">
-                  Password
-                </label>
-                <Input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full"
-                  placeholder="Create a password"
-                  autoComplete="new-password"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-sm font-medium">
-                  Confirm Password
-                </label>
-                <Input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                  className="w-full"
-                  placeholder="Confirm your password"
-                  autoComplete="new-password"
                 />
               </div>
 
@@ -165,18 +158,10 @@ const RegisterPage = () => {
                 className="w-full"
                 disabled={isRegistering}
               >
-                {isRegistering ? 'Creating Account...' : 'Create Account'}
+                {isRegistering ? 'Loading...take time!' : 'Lets Go!'}
               </Button>
 
-              <div className="text-center text-sm text-gray-500">
-                Already have an account?{' '}
-                <a 
-                  href="/login" 
-                  className="text-primary hover:underline"
-                >
-                  Sign in here
-                </a>
-              </div>
+              
             </form>
           </CardContent>
         </Card>
@@ -188,8 +173,8 @@ const RegisterPage = () => {
           <div className="text-6xl mb-4">🏏</div>
           <h1 className="text-4xl font-bold mb-4">Welcome to CricWars</h1>
           <p className="text-lg">
-            Join thousands of cricket enthusiasts in building and managing your
-            dream cricket team through our real-time auction platform.
+            Register your team and compete in exciting player selection game to build
+            your best cricket team.
           </p>
         </div>
       </div>
