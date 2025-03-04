@@ -49,6 +49,7 @@ const RegisterPage = () => {
     "Dumbledore’s Army",
     "Golden Snitches",
     "Deathly Hallows",
+    "Xenia",
   ];
 
   // Constant password for all users
@@ -148,7 +149,7 @@ const RegisterPage = () => {
                   }}
                   required
                   className="w-full"
-                  placeholder="Enter your magical team name"
+                  placeholder="Enter your magical team name (Xenia)"
                   autoComplete="username"
                 />
               </div>
