@@ -51,7 +51,8 @@ const RegisterPage = () => {
     "Deathly Hallows",
     "Xenia",
     "Demo",
-    "Viraj"
+    "Viraj",
+    "Viraj Mane",
   ];
 
   // Constant password for all users
